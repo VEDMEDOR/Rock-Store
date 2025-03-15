@@ -1,13 +1,24 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, request, redirect
 
-# Створення екземпляра Flask
 app = Flask(__name__)
 
-# Головний маршрут
-@app.route('/')
-def home():
-    return render_template('index.html')  # Вивести шаблон index.html
 
-# Запуск додатку на вказаному порту
+@app.route('/')
+@app.route('/home')
+def index():
+    return render_template("index.html")
+
+
+@app.route('/create-article', methods=['POST', 'GET'])
+def create_article():
+    if request.method == "POST":
+        title = request.form['title']
+        intro = request.form['intro']
+        text = request.form['text']
+        print(f"{title}\n{intro}\n{text}\n")
+    else:
+        return render_template("create-article.html")
+
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001)
+    app.run(debug=True)
