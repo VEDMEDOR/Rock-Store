@@ -1,25 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Flask Site</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #007BFF;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome to My Flask Site! Skibidi</h1>
-    <p>This is a simple Flask app with an HTML template.</p>
-</body>
-</html>
+{% extends 'base.html' %}
 
+{% block title %}
+Main Page
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Stone Store</h1>
+    <div id="products" class="products">
+        <div class="product" data-name="Товар 1" data-price="100">
+            <img src="{{ url_for('static', filename='imgs/212346.jpg') }}" alt="Товар 1">
+            <h2>orange stone</h2>
+            <p>Price: 0.10 PLN</p>
+            <button class="button" onclick="addToCart(this)">Добавить в корзину</button>
+        </div>
+        <div class="product" data-name="Товар 2" data-price="200">
+            <img src="{{ url_for('static', filename='imgs/766776.jpg') }}" alt="Товар 2">
+            <h2>YELLOW STONE!</h2>
+            <p>Price: 0.10 PLN</p>
+            <button class="button" onclick="addToCart(this)">Добавить в корзину</button>
+        </div>
+        <div class="product" data-name="Товар 3" data-price="300">
+            <img src="{{ url_for('static', filename='imgs/981340.jpg') }}" alt="Товар 3">
+            <h2>xd stonek</h2>
+            <p>Price: 0.05 PLN</p>
+            <button class="button" onclick="addToCart(this)">Добавить в корзину</button>
+        </div>
+    </div>
+    
+    <h2>Корзина</h2>
+    <div id="cart" class="cart"></div>
+</div>
+
+<script>
+    let cart = [];
+    function addToCart(button) {
+        let product = button.parentElement;
+        let name = product.getAttribute('data-name');
+        let price = product.getAttribute('data-price');
+        cart.push({ name, price });
+        updateCart();
+    }
+    function updateCart() {
+        let cartDiv = document.getElementById('cart');
+        cartDiv.innerHTML = '';
+        cart.forEach(item => {
+            let p = document.createElement('p');
+            p.textContent = `${item.name} - ${item.price} грн`;
+            cartDiv.appendChild(p);
+        });
+    }
+</script>
+
+{% endblock %}
